@@ -11,9 +11,6 @@ import com.url.shortner.repository.ClickEventRepository;
 import com.url.shortner.repository.UrlMappingRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,7 +34,6 @@ public class UrlMappingService {
     private final UrlMappingRepository urlMappingRepository;
     private final ClickEventRepository clickEventRepository;
 
-    @CacheEvict(cacheNames = {"urlMappings", "userUrls"}, allEntries = true)
     public UrlMappingDTO createShortUrl(String originalUrl, User user) {
         Objects.requireNonNull(user, "User must not be null");
         validateOriginalUrl(originalUrl);
@@ -97,7 +93,6 @@ public class UrlMappingService {
         return urlMappingDTO;
     }
 
-    @Cacheable(cacheNames = "userUrls", key = "#user.id")
     public List<UrlMappingDTO> getUrlsByUser(User user) {
         return urlMappingRepository.findByUser(user).stream().map(this::convertToDto).toList();
     }
@@ -132,31 +127,20 @@ public class UrlMappingService {
 
     @Transactional
     public UrlMapping getOriginalUrl(String shortUrl) {
-        UrlMapping urlMapping = findByShortUrlCached(shortUrl);
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if (urlMapping != null) {
-            UrlMapping persistedUrlMapping = urlMappingRepository.findById(urlMapping.getId()).orElse(urlMapping);
-            persistedUrlMapping.setClickCount(persistedUrlMapping.getClickCount() + 1);
-            urlMappingRepository.save(persistedUrlMapping);
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+            urlMappingRepository.save(urlMapping);
 
             ClickEvent clickEvent = new ClickEvent();
             clickEvent.setClickDate(LocalDateTime.now());
-            clickEvent.setUrlMapping(persistedUrlMapping);
+            clickEvent.setUrlMapping(urlMapping);
             clickEventRepository.save(clickEvent);
-            return persistedUrlMapping;
         }
-        return null;
-    }
-
-    @Cacheable(cacheNames = "urlMappings", key = "#shortUrl")
-    public UrlMapping findByShortUrlCached(String shortUrl) {
-        return urlMappingRepository.findByShortUrl(shortUrl);
+        return urlMapping;
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "urlMappings", key = "#shortUrl"),
-            @CacheEvict(cacheNames = "userUrls", key = "#user.id")
-    })
     public void deleteUrlMapping(String shortUrl, User user) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if (urlMapping == null) {
@@ -171,10 +155,6 @@ public class UrlMappingService {
     }
 
     @Transactional
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "urlMappings", key = "#shortUrl"),
-            @CacheEvict(cacheNames = "userUrls", key = "#user.id")
-    })
     public UrlMappingDTO updateOriginalUrl(String shortUrl, String newOriginalUrl, User user) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if (urlMapping == null) {
