@@ -1,0 +1,6 @@
+com\url\shortner\dtos\UpdateUrlRequest.class
+com\url\shortner\exceptions\DuplicateResourceException.class
+com\url\shortner\dtos\MessageResponse.class
+com\url\shortner\exceptions\ResourceNotFoundException.class
+com\url\shortner\exceptions\ForbiddenException.class
+com\url\shortner\dtos\CreateUrlRequest.class

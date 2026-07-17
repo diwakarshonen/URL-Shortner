@@ -1,0 +1,343 @@
+{
+  "info": {
+    "_postman_id": "9d39fb1e-e4aa-441e-b5b8-1137cb4d8ac6",
+    "name": "URL Shortner",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56662277",
+    "_collection_link": "https://go.postman.co/collection/56662277-9d39fb1e-e4aa-441e-b5b8-1137cb4d8ac6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "0_Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9090/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "1_Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"diwakar\",\r\n  \"email\": \"diwakar@gmail.com\",\r\n  \"password\": \"Rkind19@\",\r\n  \"role\": [\"ROLE_USER\"]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9090/api/auth/public/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "auth",
+            "public",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2_Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"diwakar\",\r\n  \"password\": \"Rkind19@\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9090/api/auth/public/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "auth",
+            "public",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3_Create_Short_URL",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"originalUrl\": \"https://google.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9090/api/urls/shorten",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "shorten"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4_Get_User_URLs",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9090/api/urls/myurls",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "myurls"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5_Delete URL",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9090/api/urls/bBU5F29H",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "bBU5F29H"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6_Update_URL",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"originalUrl\": \"https://example.com/sdf\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:9090/api/urls/XBkwaNy2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "XBkwaNy2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7_URL_Analytics",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9090/api/urls/analytics/f6Mgrtsv?startDate=2026-07-07T00:00:00&endDate=2026-10-09T23:59:59",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "analytics",
+            "f6Mgrtsv"
+          ],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2026-07-07T00:00:00"
+            },
+            {
+              "key": "endDate",
+              "value": "2026-10-09T23:59:59"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8_Total_Clicks",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9090/api/urls/totalClicks?startDate=2026-07-07&endDate=2026-07-07",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "urls",
+            "totalClicks"
+          ],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2026-07-07"
+            },
+            {
+              "key": "endDate",
+              "value": "2026-07-07"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9_Redirect_Short_URL",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/bBU5F29H",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "bBU5F29H"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
