@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3cda6b71-edc0-4626-89c9-9130ac985466" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../AI_WRITEUP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/UrlShortnerApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/controller/UrlController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/dto/ShortenRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/dto/ShortenResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/entity/UrlMapping.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/repository/UrlRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/service/UrlService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/com/balu/urlshortner/util/ShortCodeGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/test/java/com/balu/urlshortner/UrlShortnerApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/test/java/com/balu/urlshortner/controller/UrlControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../test.http" beforeDir="false" />
-    </list>
+    <list default="true" id="3cda6b71-edc0-4626-89c9-9130ac985466" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
