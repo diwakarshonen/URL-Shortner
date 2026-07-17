@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "9d39fb1e-e4aa-441e-b5b8-1137cb4d8ac6",
-    "name": "URL Shortner",
+    "name": "URL Shortner Local",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "56662277",
     "_collection_link": "https://go.postman.co/collection/56662277-9d39fb1e-e4aa-441e-b5b8-1137cb4d8ac6?source=collection_link"
@@ -112,7 +112,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"originalUrl\": \"https://google.com\"\r\n}",
+          "raw": "{\r\n  \"originalUrl\": \"https://gogle.com\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -253,7 +253,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:9090/api/urls/analytics/f6Mgrtsv?startDate=2026-07-07T00:00:00&endDate=2026-10-09T23:59:59",
+          "raw": "http://localhost:9090/api/urls/analytics/vNvqRSQN?startDate=2026-07-07T00:00:00&endDate=2026-10-09T23:59:59",
           "protocol": "http",
           "host": [
             "localhost"
@@ -263,7 +263,7 @@
             "api",
             "urls",
             "analytics",
-            "f6Mgrtsv"
+            "vNvqRSQN"
           ],
           "query": [
             {
@@ -326,12 +326,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8081/bBU5F29H",
+          "raw": "http://localhost:9090/bBU5F29H",
           "protocol": "http",
           "host": [
             "localhost"
           ],
-          "port": "8081",
+          "port": "9090",
           "path": [
             "bBU5F29H"
           ]
