@@ -1,5 +1,6 @@
 package com.url.shortner.service;
 
+import com.url.shortner.dtos.CreateUrlRequest;
 import com.url.shortner.models.User;
 import com.url.shortner.repository.ClickEventRepository;
 import com.url.shortner.repository.UrlMappingRepository;
@@ -26,8 +27,8 @@ class UrlMappingServiceTest {
     @Test
     void createShortUrl_shouldRejectInvalidUrl() {
         User user = new User();
+        CreateUrlRequest request=new CreateUrlRequest();
         user.setId(1L);
-
-        assertThrows(IllegalArgumentException.class, () -> urlMappingService.createShortUrl("not-a-valid-url", user));
+        assertThrows(IllegalArgumentException.class, () -> urlMappingService.createShortUrl(request, user));
     }
 }

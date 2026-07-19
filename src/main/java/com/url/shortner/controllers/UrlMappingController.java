@@ -37,7 +37,7 @@ public class UrlMappingController {
     public ResponseEntity<UrlMappingDTO> createShortUrl(@Valid @RequestBody CreateUrlRequest request,
                                                         Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        return ResponseEntity.ok(urlMappingService.createShortUrl(request.getOriginalUrl(), user));
+        return ResponseEntity.ok(urlMappingService.createShortUrl(request, user));
     }
 
     @GetMapping("/myurls")
@@ -87,6 +87,6 @@ public class UrlMappingController {
                                                            @Valid @RequestBody UpdateUrlRequest request,
                                                            Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        return ResponseEntity.ok(urlMappingService.updateOriginalUrl(shortUrl, request.getOriginalUrl(), user));
+        return ResponseEntity.ok(urlMappingService.updateOriginalUrl(shortUrl,request, user));
     }
 }

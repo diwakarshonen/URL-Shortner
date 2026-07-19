@@ -12,4 +12,6 @@ public class UpdateUrlRequest {
 
     @NotBlank(message = "Original URL cannot be blank")
     private String originalUrl;
+
+    private String description;
 }

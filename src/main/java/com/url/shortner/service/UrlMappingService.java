@@ -1,6 +1,8 @@
 package com.url.shortner.service;
 
 import com.url.shortner.dtos.ClickEventDTO;
+import com.url.shortner.dtos.CreateUrlRequest;
+import com.url.shortner.dtos.UpdateUrlRequest;
 import com.url.shortner.dtos.UrlMappingDTO;
 import com.url.shortner.exceptions.ForbiddenException;
 import com.url.shortner.exceptions.ResourceNotFoundException;
@@ -34,16 +36,16 @@ public class UrlMappingService {
     private final UrlMappingRepository urlMappingRepository;
     private final ClickEventRepository clickEventRepository;
 
-    public UrlMappingDTO createShortUrl(String originalUrl, User user) {
+    public UrlMappingDTO createShortUrl(CreateUrlRequest request, User user) {
         Objects.requireNonNull(user, "User must not be null");
-        validateOriginalUrl(originalUrl);
-
+        validateOriginalUrl(request.getOriginalUrl());
         String shortUrl = generateShortUrl();
         UrlMapping urlMapping = new UrlMapping();
-        urlMapping.setOriginalUrl(originalUrl.trim());
+        urlMapping.setOriginalUrl(request.getOriginalUrl().trim());
         urlMapping.setShortUrl(shortUrl);
         urlMapping.setUser(user);
         urlMapping.setCreatedDate(LocalDateTime.now());
+        urlMapping.setDescription(request.getDescription());
         UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
         return convertToDto(savedUrlMapping);
     }
@@ -90,6 +92,7 @@ public class UrlMappingService {
         urlMappingDTO.setClickCount(urlMapping.getClickCount());
         urlMappingDTO.setCreatedDate(urlMapping.getCreatedDate());
         urlMappingDTO.setUsername(urlMapping.getUser().getUsername());
+        urlMappingDTO.setDescription(urlMapping.getDescription());
         return urlMappingDTO;
     }
 
@@ -155,7 +158,7 @@ public class UrlMappingService {
     }
 
     @Transactional
-    public UrlMappingDTO updateOriginalUrl(String shortUrl, String newOriginalUrl, User user) {
+    public UrlMappingDTO updateOriginalUrl(String shortUrl, UpdateUrlRequest request, User user) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if (urlMapping == null) {
             throw new ResourceNotFoundException("URL mapping not found");
@@ -164,8 +167,9 @@ public class UrlMappingService {
             throw new ForbiddenException("You don't have permission to update this URL");
         }
 
-        validateOriginalUrl(newOriginalUrl);
-        urlMapping.setOriginalUrl(newOriginalUrl.trim());
+        validateOriginalUrl(request.getOriginalUrl());
+        urlMapping.setOriginalUrl(request.getOriginalUrl().trim());
+        urlMapping.setDescription(request.getDescription());
         urlMappingRepository.save(urlMapping);
         return convertToDto(urlMapping);
     }
