@@ -87,6 +87,6 @@ public class UrlMappingController {
                                                            @Valid @RequestBody UpdateUrlRequest request,
                                                            Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        return ResponseEntity.ok(urlMappingService.updateOriginalUrl(shortUrl,request, user));
+        return ResponseEntity.ok(urlMappingService.updateOriginalUrl(shortUrl,request,user));
     }
 }

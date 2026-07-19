@@ -13,6 +13,7 @@ import com.url.shortner.repository.ClickEventRepository;
 import com.url.shortner.repository.UrlMappingRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +27,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import java.time.Duration;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
 @Service
 @RequiredArgsConstructor
 public class UrlMappingService {
@@ -35,6 +39,10 @@ public class UrlMappingService {
 
     private final UrlMappingRepository urlMappingRepository;
     private final ClickEventRepository clickEventRepository;
+    private final StringRedisTemplate redisTemplate;
+
+    @Value("${app.redis.cache.ttl-hours}")
+    private long redisCacheTtlHours;
 
     public UrlMappingDTO createShortUrl(CreateUrlRequest request, User user) {
         Objects.requireNonNull(user, "User must not be null");
@@ -47,6 +55,13 @@ public class UrlMappingService {
         urlMapping.setCreatedDate(LocalDateTime.now());
         urlMapping.setDescription(request.getDescription());
         UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
+
+        redisTemplate.opsForValue().set(
+                savedUrlMapping.getShortUrl(),
+                savedUrlMapping.getOriginalUrl(),
+                Duration.ofHours(redisCacheTtlHours)
+        );
+
         return convertToDto(savedUrlMapping);
     }
 
@@ -130,11 +145,23 @@ public class UrlMappingService {
 
     @Transactional
     public UrlMapping getOriginalUrl(String shortUrl) {
-        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        String originalUrl=redisTemplate.opsForValue().get(shortUrl);
+        UrlMapping urlMapping;
+        if (originalUrl != null) {
+            urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        } else {
+            urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+            if (urlMapping != null) {
+                redisTemplate.opsForValue().set(
+                        shortUrl,
+                        urlMapping.getOriginalUrl(),
+                        Duration.ofHours(redisCacheTtlHours)
+                );
+            }
+        }
         if (urlMapping != null) {
             urlMapping.setClickCount(urlMapping.getClickCount() + 1);
             urlMappingRepository.save(urlMapping);
-
             ClickEvent clickEvent = new ClickEvent();
             clickEvent.setClickDate(LocalDateTime.now());
             clickEvent.setUrlMapping(urlMapping);
@@ -154,6 +181,7 @@ public class UrlMappingService {
         }
 
         clickEventRepository.deleteByUrlMapping(urlMapping);
+        redisTemplate.delete(shortUrl);
         urlMappingRepository.delete(urlMapping);
     }
 
@@ -171,6 +199,11 @@ public class UrlMappingService {
         urlMapping.setOriginalUrl(request.getOriginalUrl().trim());
         urlMapping.setDescription(request.getDescription());
         urlMappingRepository.save(urlMapping);
+        redisTemplate.opsForValue().set(
+                shortUrl,
+                request.getOriginalUrl().trim(),
+                Duration.ofHours(redisCacheTtlHours)
+        );
         return convertToDto(urlMapping);
     }
 }
